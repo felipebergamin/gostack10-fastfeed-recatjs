@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './config/reactotron';
+
 function App() {
   return (
     <div>
