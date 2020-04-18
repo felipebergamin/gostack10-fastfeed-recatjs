@@ -1,16 +1,9 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  height: 100%;
-  background-color: #7d40e7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const Form = styled.form`
   background-color: #fff;
-  width: 30%;
+  width: 100%;
+  max-width: 400px;
   padding: 30px;
   justify-content: center;
   align-items: center;
