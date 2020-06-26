@@ -14,11 +14,11 @@ export default function RouteWrapper({
   const signed = useSelector((state) => state.auth.isAuthenticated);
 
   if (!signed && isPrivate) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   }
 
   const Layout = signed ? AppLayout : AuthLayout;
