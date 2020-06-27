@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 import { Container } from './styles';
@@ -13,7 +14,9 @@ function Header() {
       <ul>
         <li>Encomendas</li>
 
-        <li>Entregadores</li>
+        <Link to="/couriers">
+          <li>Entregadores</li>
+        </Link>
 
         <li>Destinatários</li>
 
