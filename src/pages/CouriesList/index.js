@@ -1,5 +1,7 @@
 import React from 'react';
 import { GoPlus, GoSearch } from 'react-icons/go';
+import { Link } from 'react-router-dom';
+
 import { Container } from './styles';
 
 function CouriesList() {
@@ -13,10 +15,10 @@ function CouriesList() {
           <input placeholder="Buscar por entregadores" />
         </div>
 
-        <button className="btn-add" type="button">
+        <Link className="btn-add" to="/couriers/add">
           <GoPlus className="icon" color="#fff" />
           Cadastrar
-        </button>
+        </Link>
       </div>
     </Container>
   );
