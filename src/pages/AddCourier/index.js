@@ -19,6 +19,7 @@ function AddCourier({ history }) {
       name: '',
       email: '',
     },
+    validateOnMount: true,
     validationSchema: validator,
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
@@ -63,7 +64,12 @@ function AddCourier({ history }) {
     handleChange,
     handleBlur,
     handleSubmit,
+    isValidating,
+    isValid,
+    isSubmitting,
   } = formik;
+
+  const shouldDisableSubmit = !isValid || isValidating || isSubmitting;
 
   return (
     <Container>
@@ -77,7 +83,11 @@ function AddCourier({ history }) {
           Voltar
         </button>
 
-        <button type="button" onClick={handleSubmit}>
+        <button
+          disabled={shouldDisableSubmit}
+          type="button"
+          onClick={handleSubmit}
+        >
           <FiCheck />
           Salvar
         </button>
