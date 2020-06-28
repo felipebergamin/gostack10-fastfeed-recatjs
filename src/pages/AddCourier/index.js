@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { IoIosArrowBack } from 'react-icons/io';
 import { FiCheck } from 'react-icons/fi';
 import { useFormik } from 'formik';
@@ -9,7 +10,7 @@ import ImagePicker from '~/components/ImagePicker';
 import validator from './validator';
 import api from '~/services/api';
 
-function AddCourier() {
+function AddCourier({ history }) {
   const filePickerRef = useRef();
   const [avatarFile, setAvatarFile] = useState();
 
@@ -71,7 +72,7 @@ function AddCourier() {
 
         <Spacer />
 
-        <button type="button">
+        <button type="button" onClick={history.goBack}>
           <IoIosArrowBack />
           Voltar
         </button>
@@ -118,5 +119,11 @@ function AddCourier() {
     </Container>
   );
 }
+
+AddCourier.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
+};
 
 export default AddCourier;
