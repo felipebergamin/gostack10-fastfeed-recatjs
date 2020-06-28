@@ -51,10 +51,18 @@ function AddCourier() {
       actions.resetForm();
       setAvatarFile(null);
       if (filePickerRef.current) filePickerRef.current.reset();
+      return true;
     },
   });
 
-  const { values, errors, handleChange, handleBlur, handleSubmit } = formik;
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = formik;
 
   return (
     <Container>
@@ -87,6 +95,9 @@ function AddCourier() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {touched.name && errors.name ? (
+            <p className="error-message">{errors.name}</p>
+          ) : null}
         </label>
 
         <label htmlFor="email">
@@ -99,6 +110,9 @@ function AddCourier() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {touched.email && errors.email ? (
+            <p className="error-message">{errors.email}</p>
+          ) : null}
         </label>
       </form>
     </Container>

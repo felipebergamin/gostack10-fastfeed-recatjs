@@ -57,12 +57,21 @@ export const Container = styled.div`
         display: block;
         height: 45px;
         background: #ffffff 0% 0% no-repeat padding-box;
-        border: 1px solid #dddddd;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #dddddd;
         opacity: 1;
 
         &:focus {
           border: 1px solid #7d40e7;
         }
+      }
+
+      .error-message {
+        color: red;
+        text-align: right;
+        font-size: 1em;
+        margin-top: 4px;
       }
     }
   }
