@@ -1,11 +1,61 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { FiCheck } from 'react-icons/fi';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 
 import { Container, Spacer } from './styles';
 import ImagePicker from '~/components/ImagePicker';
+import validator from './validator';
+import api from '~/services/api';
 
 function AddCourier() {
+  const filePickerRef = useRef();
+  const [avatarFile, setAvatarFile] = useState();
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+    },
+    validationSchema: validator,
+    onSubmit: async (values, actions) => {
+      actions.setSubmitting(true);
+
+      const formData = new FormData();
+      formData.append('file', avatarFile);
+      let avatar_id = null;
+
+      try {
+        const {
+          data: { id },
+        } = await api.post('files/', formData);
+
+        avatar_id = id;
+      } catch (err) {
+        return toast.error(`Houve um erro ao enviar sua foto`);
+      }
+
+      try {
+        await api.post('couriers/', {
+          ...values,
+          avatar_id,
+        });
+      } catch (err) {
+        return toast.error(
+          'Desculpe, houve um erro fazendo o cadastro do entregador'
+        );
+      }
+
+      toast.success('Entregador cadastrado');
+      actions.resetForm();
+      setAvatarFile(null);
+      if (filePickerRef.current) filePickerRef.current.reset();
+    },
+  });
+
+  const { values, errors, handleChange, handleBlur, handleSubmit } = formik;
+
   return (
     <Container>
       <div className="title-row">
@@ -18,23 +68,37 @@ function AddCourier() {
           Voltar
         </button>
 
-        <button type="button" disabled>
+        <button type="button" onClick={handleSubmit}>
           <FiCheck />
           Salvar
         </button>
       </div>
 
       <form>
-        <ImagePicker />
+        <ImagePicker inputRef={filePickerRef} onChangeFile={setAvatarFile} />
 
         <label htmlFor="name">
           Nome
-          <input type="text" name="name" placeholder="John Doe" />
+          <input
+            type="text"
+            name="name"
+            placeholder="John Doe"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </label>
 
         <label htmlFor="email">
           E-mail
-          <input type="email" placeholder="example@rocketseat.com" />
+          <input
+            type="email"
+            name="email"
+            placeholder="example@rocketseat.com"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </label>
       </form>
     </Container>

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './config/reactotron';
 import Routes from './routes';
@@ -14,6 +16,8 @@ ReactDOM.render(
       <PersistGate persistor={persistor}>
         <Routes />
         <GlobalStyle />
+
+        <ToastContainer />
       </PersistGate>
     </Provider>
   </React.StrictMode>,

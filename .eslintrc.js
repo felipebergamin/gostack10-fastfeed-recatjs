@@ -15,6 +15,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  parser: 'babel-eslint',
   plugins: ['react', 'jsx-a11y', 'import', 'react-hooks', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
@@ -22,6 +23,9 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-param-reassign': 'off',
     'react/jsx-props-no-spreading': 'off',
+    camelcase: 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     'import/resolver': {

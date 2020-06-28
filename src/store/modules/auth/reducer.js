@@ -1,5 +1,7 @@
 import produce from 'immer';
 
+import api from '~/services/api';
+
 const INITIAL_STATE = {
   isAuthenticated: false,
   token: null,
@@ -11,6 +13,14 @@ export default function auth(state = INITIAL_STATE, action = {}) {
       case '@auth/authenticate':
         draft.isAuthenticated = true;
         draft.token = action.payload.token;
+
+        api.defaults.headers.common.Authorization = `Bearer ${action.payload.token}`;
+        break;
+      case 'persist/REHYDRATE':
+        draft.isAuthenticated = true;
+        draft.token = action.payload.auth.token;
+
+        api.defaults.headers.common.Authorization = `Bearer ${action.payload.auth.token}`;
         break;
       case '@auth/logout':
         draft.isAuthenticated = false;
