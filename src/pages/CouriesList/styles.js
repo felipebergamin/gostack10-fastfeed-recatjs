@@ -56,4 +56,46 @@ export const Container = styled.div`
       left: 11px;
     }
   }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1.5rem;
+
+    .action-icon {
+      cursor: pointer;
+    }
+
+    td,
+    th {
+      padding: 1.4em 2em;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    thead {
+      color: #444444;
+      height: 3rem;
+      text-align: left;
+    }
+
+    tbody {
+      td {
+        background-color: white;
+        width: 1;
+
+        &:first-child {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+    }
+  }
 `;
