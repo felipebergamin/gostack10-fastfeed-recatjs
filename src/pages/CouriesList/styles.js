@@ -95,6 +95,16 @@ export const Container = styled.div`
           border-top-right-radius: 10px;
           border-bottom-right-radius: 10px;
         }
+
+        .menuItem {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          svg {
+            margin-right: 10px;
+          }
+        }
       }
     }
   }

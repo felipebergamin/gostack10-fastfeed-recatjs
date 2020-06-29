@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { GoPlus, GoSearch } from 'react-icons/go';
+import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
+import Dropdown from 'rc-dropdown';
+import Menu, { Item as MenuItem } from 'rc-menu';
 
 import { Container } from './styles';
 import api from '~/services/api';
@@ -17,6 +19,12 @@ function CouriesList() {
 
     load();
   }, []);
+
+  const menuStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  };
 
   return (
     <Container>
@@ -52,7 +60,24 @@ function CouriesList() {
               <td>{courier.name}</td>
               <td>{courier.email}</td>
               <td>
-                <BsThreeDots className="action-icon" />
+                <Dropdown
+                  trigger={['click']}
+                  animation="slide-up"
+                  overlay={
+                    <Menu style={{ width: 90 }}>
+                      <MenuItem key="1" style={menuStyle}>
+                        <GoPencil style={{ marginRight: 10 }} />
+                        edit
+                      </MenuItem>
+                      <MenuItem key="2" style={menuStyle}>
+                        <GoX style={{ marginRight: 10 }} />
+                        delete
+                      </MenuItem>
+                    </Menu>
+                  }
+                >
+                  <BsThreeDots className="action-icon" />
+                </Dropdown>
               </td>
             </tr>
           ))}
