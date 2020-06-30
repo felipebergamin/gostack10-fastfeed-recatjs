@@ -18,7 +18,9 @@ function Header() {
           <li>Entregadores</li>
         </Link>
 
-        <li>Destinatários</li>
+        <Link to="/recipients">
+          <li>Destinatários</li>
+        </Link>
 
         <li>Problemas</li>
       </ul>
