@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
+import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
+import StatusTag from './extras/StatusTag';
 
 function OrdersList() {
   const [ordersList, setOrdersList] = useState([]);
@@ -56,7 +57,9 @@ function OrdersList() {
               <td>{order.courier.name}</td>
               <td>{order.recipient.city}</td>
               <td>{order.recipient.state}</td>
-              <td>{order.status}</td>
+              <td>
+                <StatusTag status={order.status} />
+              </td>
               <td>
                 <Dropdown
                   trigger={['click']}
@@ -71,8 +74,8 @@ function OrdersList() {
                           alignItems: 'center',
                         }}
                       >
-                        <GoPencil style={{ marginRight: 10 }} />
-                        edit
+                        <GoItalic style={{ marginRight: 10 }} />
+                        Visualizar
                       </MenuItem>
                       <MenuItem
                         key="2"
@@ -82,8 +85,19 @@ function OrdersList() {
                           alignItems: 'center',
                         }}
                       >
+                        <GoPencil style={{ marginRight: 10 }} />
+                        Editar
+                      </MenuItem>
+                      <MenuItem
+                        key="3"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}
+                      >
                         <GoX style={{ marginRight: 10 }} />
-                        delete
+                        Excluir
                       </MenuItem>
                     </Menu>
                   }
