@@ -9,6 +9,7 @@ import AddCourier from '~/pages/AddCourier';
 import Recipients from '~/pages/Recipients';
 import RecipientForm from '~/pages/RecipientForm';
 import OrdersList from '~/pages/OrdersList';
+import AddOrder from '~/pages/AddOrder';
 
 export default function Routes() {
   return (
@@ -26,6 +27,7 @@ export default function Routes() {
           isPrivate
         />
         <Route path="/orders" component={OrdersList} exact isPrivate />
+        <Route path="/orders/add" component={AddOrder} exact isPrivate />
       </Switch>
     </BrowserRouter>
   );

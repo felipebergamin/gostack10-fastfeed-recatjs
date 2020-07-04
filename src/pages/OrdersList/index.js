@@ -15,7 +15,7 @@ function OrdersList() {
           <input placeholder="Buscar por destinatários" />
         </div>
 
-        <Link className="btn-add" to="/recipients/add">
+        <Link className="btn-add" to="/orders/add">
           <GoPlus className="icon" color="#fff" />
           Cadastrar
         </Link>
