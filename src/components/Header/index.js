@@ -12,7 +12,9 @@ function Header() {
       <div className="separator" />
 
       <ul>
-        <li>Encomendas</li>
+        <Link to="/orders">
+          <li>Encomendas</li>
+        </Link>
 
         <Link to="/couriers">
           <li>Entregadores</li>

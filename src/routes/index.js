@@ -8,6 +8,7 @@ import CouriersList from '~/pages/CouriesList';
 import AddCourier from '~/pages/AddCourier';
 import Recipients from '~/pages/Recipients';
 import RecipientForm from '~/pages/RecipientForm';
+import OrdersList from '~/pages/OrdersList';
 
 export default function Routes() {
   return (
@@ -24,6 +25,7 @@ export default function Routes() {
           exact
           isPrivate
         />
+        <Route path="/orders" component={OrdersList} exact isPrivate />
       </Switch>
     </BrowserRouter>
   );
