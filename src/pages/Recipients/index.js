@@ -5,7 +5,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
-import { Container } from '~/styles/Container';
+import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
 
 function Recipients() {
