@@ -61,6 +61,7 @@ export const Container = styled.div`
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 1.5rem;
+    color: #444444;
 
     .action-icon {
       cursor: pointer;
@@ -76,7 +77,6 @@ export const Container = styled.div`
     }
 
     thead {
-      color: #444444;
       height: 3rem;
       text-align: left;
     }
