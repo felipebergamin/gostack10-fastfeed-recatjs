@@ -15,7 +15,7 @@ function Recipients() {
           <input placeholder="Buscar por destinatários" />
         </div>
 
-        <Link className="btn-add" to="/couriers/add">
+        <Link className="btn-add" to="/recipients/add">
           <GoPlus className="icon" color="#fff" />
           Cadastrar
         </Link>
