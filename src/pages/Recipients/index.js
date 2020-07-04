@@ -46,9 +46,8 @@ function Recipients() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Foto</th>
             <th>Nome</th>
-            <th>E-mail</th>
+            <th>Endereço</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -56,9 +55,11 @@ function Recipients() {
           {recipientsList.map((courier) => (
             <tr key={String(courier.id)}>
               <td>{courier.id}</td>
-              <td>Foto</td>
               <td>{courier.name}</td>
-              <td>{courier.email}</td>
+              <td>
+                {courier.street}, {courier.number}, {courier.city} -{' '}
+                {courier.state}
+              </td>
               <td>
                 <Dropdown
                   trigger={['click']}
