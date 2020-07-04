@@ -24,7 +24,9 @@ function Header() {
           <li>Destinatários</li>
         </Link>
 
-        <li>Problemas</li>
+        <Link to="/delivery-problems">
+          <li>Problemas</li>
+        </Link>
       </ul>
 
       <div className="spacer" />
