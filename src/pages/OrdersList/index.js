@@ -4,13 +4,16 @@ import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
+import Modal from 'react-modal';
 
 import { Container } from '~/styles/TableContainer';
+import { ModalContent } from './styles';
 import api from '~/services/api';
 import StatusTag from './extras/StatusTag';
 
 function OrdersList() {
   const [ordersList, setOrdersList] = useState([]);
+  const [viewOrder, setViewOrder] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,14 +68,16 @@ function OrdersList() {
                   trigger={['click']}
                   animation="slide-up"
                   overlay={
-                    <Menu style={{ width: 90 }}>
+                    <Menu selectable={false} style={{ width: 90 }}>
                       <MenuItem
                         key="1"
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
                           alignItems: 'center',
+                          cursor: 'pointer',
                         }}
+                        onClick={() => setViewOrder(order)}
                       >
                         <GoItalic style={{ marginRight: 10 }} />
                         Visualizar
@@ -83,6 +88,7 @@ function OrdersList() {
                           display: 'flex',
                           flexDirection: 'row',
                           alignItems: 'center',
+                          cursor: 'pointer',
                         }}
                       >
                         <GoPencil style={{ marginRight: 10 }} />
@@ -109,6 +115,59 @@ function OrdersList() {
           ))}
         </tbody>
       </table>
+
+      <Modal
+        isOpen={!!viewOrder}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, .4)',
+          },
+        }}
+        onRequestClose={() => setViewOrder(null)}
+        contentLabel="Informações da Encomenda"
+        shouldCloseOnOverlayClick
+        shouldCloseOnEsc
+      >
+        <ModalContent>
+          <strong>Informações da Encomenda</strong>
+
+          <p>
+            {viewOrder?.recipient.street}, {viewOrder?.recipient.number}
+          </p>
+
+          <p>
+            {viewOrder?.recipient.city} - {viewOrder?.recipient.state}
+          </p>
+
+          <p>{viewOrder?.recipient.cep}</p>
+
+          <hr />
+
+          <strong>Datas</strong>
+
+          <strong>Retirada:</strong>
+          <p>{viewOrder?.start_date}</p>
+
+          <strong>Entrega:</strong>
+          <p>{viewOrder?.end_date}</p>
+
+          {viewOrder?.signature && (
+            <>
+              <hr />
+
+              <strong>Assinatura do destinatário</strong>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </Container>
   );
 }

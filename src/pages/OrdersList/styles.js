@@ -19,3 +19,24 @@ export const Dot = styled.div`
   margin-right: 8px;
   background-color: ${(props) => props.color};
 `;
+
+export const ModalContent = styled.div`
+  strong,
+  p {
+    margin: 10px 0px;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  p {
+    font-weight: normal;
+  }
+
+  hr {
+    margin: 10px 0px;
+    border-color: #33333311;
+    border-width: 1px;
+  }
+`;
