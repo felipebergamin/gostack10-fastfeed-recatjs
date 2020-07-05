@@ -33,6 +33,12 @@ export default function Routes() {
           exact
           isPrivate
         />
+        <Route
+          path="/recipients/:id/edit"
+          component={RecipientForm}
+          exact
+          isPrivate
+        />
         <Route path="/orders" component={OrdersList} exact isPrivate />
         <Route path="/orders/add" component={AddOrder} exact isPrivate />
         <Route path="/delivery-problems" component={Problems} exact isPrivate />

@@ -1,23 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { FiCheck } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import { Formik, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
 import { Container, Spacer } from './styles';
 import Validator from './validator';
 import api from '~/services/api';
 
 function RecipientForm({ history }) {
+  const routeParams = useParams();
+  const [loading, setLoading] = useState(true);
+  const [initialValues, setInitialValues] = useState({
+    name: '',
+    street: '',
+    number: '',
+    complement: '',
+    state: '',
+    city: '',
+    cep: '',
+  });
+
+  useEffect(() => {
+    if (routeParams.id) {
+      api.get(`recipients/${routeParams.id}`).then(({ data }) => {
+        setInitialValues(data);
+        setLoading(false);
+      });
+    } else setLoading(false);
+  }, [routeParams]);
+
   const onSubmit = async (values, actions) => {
     actions.setSubmitting(true);
 
     try {
-      await api.post('recipients/', values);
+      if (routeParams.id)
+        await api.put(`recipients/${routeParams.id}/`, values);
+      else await api.post('recipients/', values);
 
-      toast.success('Destinatário cadastrado com sucesso!');
-      actions.resetForm();
+      toast.success('Destinatário salvo com sucesso!');
+      history.goBack();
     } catch (err) {
       toast.error('Erro ao cadastrar destinatário');
       if (err.response && err.response.status === 400) {
@@ -26,20 +50,14 @@ function RecipientForm({ history }) {
     }
   };
 
+  if (loading) return <p>Loading...</p>;
+
   return (
     <Container>
       <Formik
         validationSchema={Validator}
         onSubmit={onSubmit}
-        initialValues={{
-          name: '',
-          street: '',
-          number: '',
-          complement: '',
-          state: '',
-          city: '',
-          cep: '',
-        }}
+        initialValues={initialValues}
       >
         {({ values, handleChange, handleBlur, handleSubmit }) => (
           <>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
@@ -16,6 +16,7 @@ function Recipients() {
     cursor: 'pointer',
   };
 
+  const history = useHistory();
   const [recipientsList, setRecipientsList] = useState([]);
 
   useEffect(() => {
@@ -32,6 +33,10 @@ function Recipients() {
     setRecipientsList((list) =>
       list.filter((recipient) => recipient.id !== id)
     );
+  };
+
+  const handleEdit = (id) => {
+    history.push(`/recipients/${id}/edit`);
   };
 
   return (
@@ -74,7 +79,11 @@ function Recipients() {
                   animation="slide-up"
                   overlay={
                     <Menu style={{ width: 90 }} selectable={false}>
-                      <MenuItem key="1" style={menuStyle}>
+                      <MenuItem
+                        key="1"
+                        style={menuStyle}
+                        onClick={() => handleEdit(recipient.id)}
+                      >
                         <GoPencil style={{ marginRight: 10 }} color="#4D85EE" />
                         Editar
                       </MenuItem>
