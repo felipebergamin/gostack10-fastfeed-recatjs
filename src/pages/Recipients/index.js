@@ -13,6 +13,7 @@ function Recipients() {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    cursor: 'pointer',
   };
 
   const [recipientsList, setRecipientsList] = useState([]);
@@ -65,14 +66,14 @@ function Recipients() {
                   trigger={['click']}
                   animation="slide-up"
                   overlay={
-                    <Menu style={{ width: 90 }}>
+                    <Menu style={{ width: 90 }} selectable={false}>
                       <MenuItem key="1" style={menuStyle}>
-                        <GoPencil style={{ marginRight: 10 }} />
-                        edit
+                        <GoPencil style={{ marginRight: 10 }} color="#4D85EE" />
+                        Editar
                       </MenuItem>
                       <MenuItem key="2" style={menuStyle}>
-                        <GoX style={{ marginRight: 10 }} />
-                        delete
+                        <GoX style={{ marginRight: 10 }} color="#DE3B3B" />
+                        Excluir
                       </MenuItem>
                     </Menu>
                   }
