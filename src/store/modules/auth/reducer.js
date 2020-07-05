@@ -17,10 +17,12 @@ export default function auth(state = INITIAL_STATE, action = {}) {
         api.defaults.headers.common.Authorization = `Bearer ${action.payload.token}`;
         break;
       case 'persist/REHYDRATE':
-        draft.isAuthenticated = true;
-        draft.token = action.payload.auth.token;
+        if (action.payload) {
+          draft.isAuthenticated = action.payload.auth.isAuthenticated;
+          draft.token = action.payload.auth.token;
 
-        api.defaults.headers.common.Authorization = `Bearer ${action.payload.auth.token}`;
+          api.defaults.headers.common.Authorization = `Bearer ${action.payload.auth.token}`;
+        }
         break;
       case '@auth/logout':
         draft.isAuthenticated = false;
