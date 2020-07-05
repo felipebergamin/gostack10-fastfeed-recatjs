@@ -34,7 +34,9 @@ function Header() {
       <div className="user-box">
         <strong>Admin</strong>
 
-        <p>sair do sistema</p>
+        <Link to="/logout">
+          <p>sair do sistema</p>
+        </Link>
       </div>
     </Container>
   );
