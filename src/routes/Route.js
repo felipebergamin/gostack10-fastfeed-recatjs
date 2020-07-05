@@ -18,7 +18,7 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/" />;
+    return <Redirect to="/orders" />;
   }
 
   const Layout = signed ? AppLayout : AuthLayout;
