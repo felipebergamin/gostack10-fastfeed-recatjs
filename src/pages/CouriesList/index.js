@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
@@ -9,6 +9,7 @@ import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
 
 function CouriesList() {
+  const history = useHistory();
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -31,6 +32,10 @@ function CouriesList() {
     } catch (err) {
       toast.error('Não foi possível remover o entregador');
     }
+  };
+
+  const handleEdit = async (id) => {
+    history.push(`/couriers/${id}/edit`);
   };
 
   const menuStyle = {
@@ -79,7 +84,11 @@ function CouriesList() {
                   animation="slide-up"
                   overlay={
                     <Menu style={{ width: 90 }} selectable={false}>
-                      <MenuItem key="1" style={menuStyle}>
+                      <MenuItem
+                        key="1"
+                        style={menuStyle}
+                        onClick={() => handleEdit(courier.id)}
+                      >
                         <GoPencil style={{ marginRight: 10 }} color="#4D85EE" />
                         Editar
                       </MenuItem>

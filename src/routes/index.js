@@ -20,6 +20,12 @@ export default function Routes() {
         <Route path="/login" component={Login} exact />
         <Route path="/couriers" component={CouriersList} exact isPrivate />
         <Route path="/couriers/add" component={AddCourier} exact isPrivate />
+        <Route
+          path="/couriers/:id/edit"
+          component={AddCourier}
+          exact
+          isPrivate
+        />
         <Route path="/recipients" component={Recipients} exact isPrivate />
         <Route
           path="/recipients/add"

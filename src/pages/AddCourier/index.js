@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowBack } from 'react-icons/io';
 import { FiCheck } from 'react-icons/fi';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
 import { Container, Spacer } from './styles';
 import ImagePicker from '~/components/ImagePicker';
@@ -12,7 +13,9 @@ import api from '~/services/api';
 
 function AddCourier({ history }) {
   const filePickerRef = useRef();
+  const routeParams = useParams();
   const [avatarFile, setAvatarFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState();
 
   const formik = useFormik({
     initialValues: {
@@ -23,26 +26,28 @@ function AddCourier({ history }) {
     validationSchema: validator,
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
-
-      const formData = new FormData();
-      formData.append('file', avatarFile);
       let avatar_id = null;
 
-      try {
-        const {
-          data: { id },
-        } = await api.post('files/', formData);
+      if (avatarFile) {
+        const formData = new FormData();
+        formData.append('file', avatarFile);
 
-        avatar_id = id;
-      } catch (err) {
-        return toast.error(`Houve um erro ao enviar sua foto`);
+        try {
+          const {
+            data: { id },
+          } = await api.post('files/', formData);
+
+          avatar_id = id;
+        } catch (err) {
+          return toast.error(`Houve um erro ao enviar sua foto`);
+        }
       }
 
       try {
-        await api.post('couriers/', {
-          ...values,
-          avatar_id,
-        });
+        if (avatar_id) values.avatar_id = avatar_id;
+
+        if (routeParams.id) await api.put(`couriers/${routeParams.id}`, values);
+        else await api.post('couriers/', values);
       } catch (err) {
         return toast.error(
           'Desculpe, houve um erro fazendo o cadastro do entregador'
@@ -50,12 +55,23 @@ function AddCourier({ history }) {
       }
 
       toast.success('Entregador cadastrado');
-      actions.resetForm();
-      setAvatarFile(null);
-      if (filePickerRef.current) filePickerRef.current.reset();
-      return true;
+      history.goBack();
     },
   });
+
+  useEffect(() => {
+    if (!routeParams?.id) return;
+
+    const fetchData = async (id) => {
+      const {
+        data: { name, email, avatar },
+      } = await api.get(`couriers/${id}`);
+      formik.setValues({ name, email });
+      if (avatar) setPreviewUrl(avatar.url);
+    };
+
+    fetchData(routeParams.id);
+  }, [routeParams]);
 
   const {
     values,
@@ -94,7 +110,11 @@ function AddCourier({ history }) {
       </div>
 
       <form>
-        <ImagePicker inputRef={filePickerRef} onChangeFile={setAvatarFile} />
+        <ImagePicker
+          inputRef={filePickerRef}
+          onChangeFile={setAvatarFile}
+          previewUrl={previewUrl}
+        />
 
         <label htmlFor="name">
           Nome
