@@ -27,6 +27,13 @@ function Recipients() {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    await api.delete(`recipients/${id}/`);
+    setRecipientsList((list) =>
+      list.filter((recipient) => recipient.id !== id)
+    );
+  };
+
   return (
     <Container>
       <h3>Gerenciando Destinatários</h3>
@@ -53,13 +60,13 @@ function Recipients() {
           </tr>
         </thead>
         <tbody>
-          {recipientsList.map((courier) => (
-            <tr key={String(courier.id)}>
-              <td>{courier.id}</td>
-              <td>{courier.name}</td>
+          {recipientsList.map((recipient) => (
+            <tr key={String(recipient.id)}>
+              <td>{recipient.id}</td>
+              <td>{recipient.name}</td>
               <td>
-                {courier.street}, {courier.number}, {courier.city} -{' '}
-                {courier.state}
+                {recipient.street}, {recipient.number}, {recipient.city} -{' '}
+                {recipient.state}
               </td>
               <td>
                 <Dropdown
@@ -71,7 +78,11 @@ function Recipients() {
                         <GoPencil style={{ marginRight: 10 }} color="#4D85EE" />
                         Editar
                       </MenuItem>
-                      <MenuItem key="2" style={menuStyle}>
+                      <MenuItem
+                        key="2"
+                        style={menuStyle}
+                        onClick={() => handleDelete(recipient.id)}
+                      >
                         <GoX style={{ marginRight: 10 }} color="#DE3B3B" />
                         Excluir
                       </MenuItem>
