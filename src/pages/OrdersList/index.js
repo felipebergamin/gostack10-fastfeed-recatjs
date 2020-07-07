@@ -24,6 +24,20 @@ function OrdersList() {
     fetchData();
   }, []);
 
+  const handleDelete = async ({ id, product }) => {
+    try {
+      if (
+        !window.confirm(`Tem certeza que deseja remover a entrega: ${product}?`)
+      )
+        return;
+
+      await api.delete(`orders/${id}/`);
+      setOrdersList((state) => state.filter((order) => order.id !== id));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <Container>
       <h3>Gerenciando Encomendas</h3>
@@ -100,7 +114,9 @@ function OrdersList() {
                           display: 'flex',
                           flexDirection: 'row',
                           alignItems: 'center',
+                          cursor: 'pointer',
                         }}
+                        onClick={() => handleDelete(order)}
                       >
                         <GoX style={{ marginRight: 10 }} />
                         Excluir

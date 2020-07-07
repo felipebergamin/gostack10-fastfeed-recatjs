@@ -26,6 +26,8 @@ module.exports = {
     camelcase: 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'no-alert': 'off',
+    'no-restricted-globals': 'off',
   },
   settings: {
     'import/resolver': {
