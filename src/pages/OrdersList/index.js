@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import Modal from 'react-modal';
+import { debounce } from 'debounce';
 
 import { Container } from '~/styles/TableContainer';
 import { ModalContent, SignatureImage } from './styles';
@@ -14,6 +15,23 @@ import StatusTag from './extras/StatusTag';
 function OrdersList() {
   const [ordersList, setOrdersList] = useState([]);
   const [viewOrder, setViewOrder] = useState();
+  const [query, setQuery] = useState('');
+  const debounceRef = useRef(null);
+
+  useEffect(() => {
+    if (debounceRef.current) debounceRef.current.clear();
+
+    debounceRef.current = debounce(async () => {
+      const { data } = await api.get('orders/', {
+        params: {
+          q: query,
+        },
+      });
+      setOrdersList(data);
+    }, 400);
+
+    debounceRef.current();
+  }, [query]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +63,11 @@ function OrdersList() {
       <div className="table-tools">
         <div className="input-container">
           <GoSearch className="input-icon" />
-          <input placeholder="Buscar por destinatários" />
+          <input
+            placeholder="Buscar por destinatários"
+            onChange={(e) => setQuery(e.target.value)}
+            value={query}
+          />
         </div>
 
         <Link className="btn-add" to="/orders/add">
