@@ -1,13 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  GoPlus,
-  GoSearch,
-  GoPencil,
-  GoX,
-  GoItalic,
-  GoEye,
-} from 'react-icons/go';
+import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
