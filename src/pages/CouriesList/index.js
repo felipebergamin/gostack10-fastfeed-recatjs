@@ -10,6 +10,7 @@ import { debounce } from 'debounce';
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
 import { Avatar } from './styles';
+import GenericAvatar from '~/components/GenericAvatar';
 
 function CouriesList() {
   const history = useHistory();
@@ -104,11 +105,15 @@ function CouriesList() {
             <tr key={String(courier.id)}>
               <td>{courier.id}</td>
               <td>
-                <Avatar
-                  className="avatar"
-                  alt="Courier Avatar"
-                  src={courier.avatar?.url}
-                />
+                {courier.avatar ? (
+                  <Avatar
+                    className="avatar"
+                    alt="Courier Avatar"
+                    src={courier.avatar.url}
+                  />
+                ) : (
+                  <GenericAvatar username={courier.name} />
+                )}
               </td>
               <td>{courier.name}</td>
               <td>{courier.email}</td>
