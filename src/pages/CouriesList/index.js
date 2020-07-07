@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
 import { Link, useHistory } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import { toast } from 'react-toastify';
+import { debounce } from 'debounce';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
@@ -13,6 +14,25 @@ import { Avatar } from './styles';
 function CouriesList() {
   const history = useHistory();
   const [list, setList] = useState([]);
+  const [query, setQuery] = useState('');
+  const debounceRef = useRef(null);
+
+  useEffect(() => {
+    if (debounceRef.current) debounceRef.current.clear();
+
+    debounceRef.current = debounce(async () => {
+      const { data } = await api.get('couriers/', {
+        params: query
+          ? {
+              q: query,
+            }
+          : {},
+      });
+      setList(data);
+    }, 400);
+
+    debounceRef.current();
+  }, [query]);
 
   useEffect(() => {
     const load = async () => {
@@ -56,7 +76,11 @@ function CouriesList() {
       <div className="table-tools">
         <div className="input-container">
           <GoSearch className="input-icon" />
-          <input placeholder="Buscar por entregadores" />
+          <input
+            placeholder="Buscar por entregadores"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
         </div>
 
         <Link className="btn-add" to="/couriers/add">
