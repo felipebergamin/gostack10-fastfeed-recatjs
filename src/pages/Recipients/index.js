@@ -1,23 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { GoPlus, GoSearch, GoPencil, GoX } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
+import { debounce } from 'debounce';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
 
-function Recipients() {
-  const menuStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    cursor: 'pointer',
-  };
+const menuStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  cursor: 'pointer',
+};
 
+function Recipients() {
   const history = useHistory();
   const [recipientsList, setRecipientsList] = useState([]);
+  const [query, setQuery] = useState('');
+  const debounceRef = useRef(null);
+
+  useEffect(() => {
+    if (debounceRef.current) debounceRef.current.clear();
+
+    debounceRef.current = debounce(async () => {
+      const { data } = await api.get('recipients/', {
+        params: {
+          q: query,
+        },
+      });
+      setRecipientsList(data);
+    }, 400);
+
+    debounceRef.current();
+  }, [query]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +64,11 @@ function Recipients() {
       <div className="table-tools">
         <div className="input-container">
           <GoSearch className="input-icon" />
-          <input placeholder="Buscar por destinatários" />
+          <input
+            placeholder="Buscar por destinatários"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
         </div>
 
         <Link className="btn-add" to="/recipients/add">
