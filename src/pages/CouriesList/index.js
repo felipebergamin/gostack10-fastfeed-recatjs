@@ -5,8 +5,10 @@ import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import { toast } from 'react-toastify';
+
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
+import { Avatar } from './styles';
 
 function CouriesList() {
   const history = useHistory();
@@ -75,7 +77,13 @@ function CouriesList() {
           {list.map((courier) => (
             <tr key={String(courier.id)}>
               <td>{courier.id}</td>
-              <td>Foto</td>
+              <td>
+                <Avatar
+                  className="avatar"
+                  alt="Courier Avatar"
+                  src={courier.avatar?.url}
+                />
+              </td>
               <td>{courier.name}</td>
               <td>{courier.email}</td>
               <td>
