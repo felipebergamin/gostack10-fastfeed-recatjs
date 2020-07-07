@@ -1,6 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
+import {
+  GoPlus,
+  GoSearch,
+  GoPencil,
+  GoX,
+  GoItalic,
+  GoEye,
+} from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
@@ -116,7 +123,7 @@ function OrdersList() {
                         }}
                         onClick={() => setViewOrder(order)}
                       >
-                        <GoItalic style={{ marginRight: 10 }} />
+                        <GoItalic style={{ marginRight: 10 }} color="#8E5BE8" />
                         Visualizar
                       </MenuItem>
                       <MenuItem
@@ -129,7 +136,7 @@ function OrdersList() {
                         }}
                         onClick={() => history.push(`orders/${order.id}/edit`)}
                       >
-                        <GoPencil style={{ marginRight: 10 }} />
+                        <GoPencil style={{ marginRight: 10 }} color="#4D85EE" />
                         Editar
                       </MenuItem>
                       <MenuItem
@@ -142,7 +149,7 @@ function OrdersList() {
                         }}
                         onClick={() => handleDelete(order)}
                       >
-                        <GoX style={{ marginRight: 10 }} />
+                        <GoX style={{ marginRight: 10 }} color="#DE3B3B" />
                         Excluir
                       </MenuItem>
                     </Menu>
