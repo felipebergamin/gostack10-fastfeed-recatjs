@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { GoPlus, GoSearch, GoPencil, GoX, GoItalic } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
@@ -17,6 +17,7 @@ function OrdersList() {
   const [viewOrder, setViewOrder] = useState();
   const [query, setQuery] = useState('');
   const debounceRef = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
     if (debounceRef.current) debounceRef.current.clear();
@@ -126,6 +127,7 @@ function OrdersList() {
                           alignItems: 'center',
                           cursor: 'pointer',
                         }}
+                        onClick={() => history.push(`orders/${order.id}/edit`)}
                       >
                         <GoPencil style={{ marginRight: 10 }} />
                         Editar

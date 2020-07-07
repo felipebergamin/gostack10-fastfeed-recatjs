@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiCheck } from 'react-icons/fi';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
@@ -12,7 +12,22 @@ import validator from './validator';
 function AddOrder() {
   const [couriers, setCouriers] = useState([]);
   const [recipients, setRecipients] = useState([]);
+  const [initialValues, setInitialValues] = useState(null);
+  const { id } = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        const { data } = await api.get(`orders/${id}`);
+        setInitialValues(data);
+      };
+
+      fetchData();
+    } else {
+      setInitialValues({ product: '', recipient_id: null, courier_id: null });
+    }
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,20 +47,23 @@ function AddOrder() {
     actions.setSubmitting(true);
 
     try {
-      await api.post('orders/', values);
+      if (id) await api.put(`orders/${id}/`, values);
+      else await api.post('orders/', values);
 
-      toast.success('Encomenda cadastrada com sucesso!');
-      actions.resetForm();
+      toast.success('Salvo com sucesso!');
+      history.goBack();
     } catch (err) {
       if (err.response?.status === 400) actions.setErrors(err.response.data);
       else toast.error('Erro cadastrando encomenda');
     }
   };
 
+  if (!initialValues) return <p>Loading...</p>;
+
   return (
     <Container>
       <Formik
-        initialValues={{ product: '', recipient_id: null, courier_id: null }}
+        initialValues={initialValues}
         validationSchema={validator}
         onSubmit={onFormSubmit}
         validateOnMount

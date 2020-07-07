@@ -46,6 +46,7 @@ export default function Routes() {
         />
         <Route path="/orders" component={OrdersList} exact isPrivate />
         <Route path="/orders/add" component={AddOrder} exact isPrivate />
+        <Route path="/orders/:id/edit" component={AddOrder} exact isPrivate />
         <Route path="/delivery-problems" component={Problems} exact isPrivate />
         <Route path="/logout" component={Logout} exact isPrivate />
       </Switch>
