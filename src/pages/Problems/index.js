@@ -3,6 +3,7 @@ import { GoSearch, GoItalic, GoTrashcan } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
+import { toast } from 'react-toastify';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
@@ -18,6 +19,19 @@ function Problems() {
 
     loadData();
   }, []);
+
+  const handleCancel = async ({ id }) => {
+    try {
+      if (!window.confirm('Deseja cancelar a entrega?')) return;
+
+      await api.post(`/delivery-problems/${id}/cancel-delivery/`);
+      toast.success('Esta entrega foi cancelada');
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ?? 'Não foi possível cancelar a entrega'
+      );
+    }
+  };
 
   return (
     <Container>
@@ -54,28 +68,34 @@ function Problems() {
                   trigger={['click']}
                   animation="slide-up"
                   overlay={
-                    <Menu style={{ width: 90 }}>
+                    <Menu style={{ width: 110 }} selectable={false}>
                       <MenuItem
                         key="1"
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
                           alignItems: 'center',
+                          cursor: 'pointer',
                         }}
                       >
-                        <GoItalic style={{ marginRight: 10 }} />
+                        <GoItalic style={{ marginRight: 10 }} color="#4D85EE" />
                         Visualizar
                       </MenuItem>
                       <MenuItem
                         key="2"
+                        onClick={() => handleCancel(problem)}
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
                           alignItems: 'center',
+                          cursor: 'pointer',
                         }}
                       >
-                        <GoTrashcan style={{ marginRight: 10 }} />
-                        Cancelar Encomenda
+                        <GoTrashcan
+                          style={{ marginRight: 10 }}
+                          color="#DE3B3B"
+                        />
+                        Cancelar
                       </MenuItem>
                     </Menu>
                   }
