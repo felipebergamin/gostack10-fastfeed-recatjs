@@ -40,13 +40,14 @@ function Problems() {
           </tr>
         </thead>
         <tbody>
-          {problems.map((courier) => (
-            <tr key={String(courier.id)}>
-              <td>{courier.id}</td>
-              <td>{courier.name}</td>
+          {problems.map((problem) => (
+            <tr key={String(problem.id)}>
+              <td>#{problem.id}</td>
+              <td>{problem.order.recipient.name}</td>
               <td>
-                {courier.street}, {courier.number}, {courier.city} -{' '}
-                {courier.state}
+                {problem.order.recipient.street},{' '}
+                {problem.order.recipient.number}, {problem.order.recipient.city}{' '}
+                - {problem.order.recipient.state}
               </td>
               <td>
                 <Dropdown
