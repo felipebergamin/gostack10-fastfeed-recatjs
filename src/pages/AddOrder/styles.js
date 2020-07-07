@@ -48,12 +48,18 @@ export const Container = styled.div`
     .row {
       display: flex;
       flex-direction: row;
+      align-items: center;
       width: 100%;
 
       label,
+      .label,
       input,
-      select {
+      .select {
         flex: 1;
+      }
+
+      div.label {
+        margin: 12px;
       }
     }
 

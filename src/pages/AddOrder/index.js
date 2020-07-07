@@ -4,6 +4,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useHistory, useParams } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 import { Container, Spacer } from './styles';
 import api from '~/services/api';
@@ -36,8 +37,18 @@ function AddOrder() {
         api.get('recipients/'),
       ]);
 
-      setCouriers(couriersResult.data);
-      setRecipients(recipientsResult.data);
+      setCouriers(
+        couriersResult.data.map((courier) => ({
+          label: courier.name,
+          value: courier.id,
+        }))
+      );
+      setRecipients(
+        recipientsResult.data.map((recipient) => ({
+          label: recipient.name,
+          value: recipient.id,
+        }))
+      );
     };
 
     fetchData();
@@ -75,6 +86,7 @@ function AddOrder() {
           handleSubmit,
           isValid,
           isSubmitting,
+          setFieldValue,
         }) => (
           <>
             <div className="title-row">
@@ -103,49 +115,37 @@ function AddOrder() {
 
             <form>
               <div className="row">
-                <label htmlFor="recipient_id">
+                <div className="label">
                   Destinatário
-                  <select
+                  <Select
+                    isSearchable
+                    placeholder="Selecione o Destinatário"
                     name="recipient_id"
-                    value={values.recipient_id}
-                    onChange={handleChange}
-                  >
-                    <option value={null} disabled selected>
-                      Selecione
-                    </option>
-                    {recipients.map((recipient) => (
-                      <option key={String(recipient.id)} value={recipient.id}>
-                        {recipient.name}
-                      </option>
-                    ))}
-                  </select>
+                    options={recipients}
+                    onChange={({ value }) =>
+                      setFieldValue('recipient_id', value)
+                    }
+                  />
                   <ErrorMessage
                     name="recipient_id"
                     render={(t) => <p className="error-message">{t}</p>}
                   />
-                </label>
+                </div>
 
-                <label htmlFor="courier_id">
+                <div className="label">
                   Entregador
-                  <select
+                  <Select
+                    isSearchable
+                    placeholder="Selecione o Entregador"
                     name="courier_id"
-                    value={values.courier_id}
-                    onChange={handleChange}
-                  >
-                    <option value={null} disabled selected>
-                      Selecione
-                    </option>
-                    {couriers.map((courier) => (
-                      <option key={String(courier.id)} value={courier.id}>
-                        {courier.name}
-                      </option>
-                    ))}
-                  </select>
+                    options={couriers}
+                    onChange={({ value }) => setFieldValue('courier_id', value)}
+                  />
                   <ErrorMessage
                     name="courier_id"
                     render={(t) => <p className="error-message">{t}</p>}
                   />
-                </label>
+                </div>
               </div>
 
               <label htmlFor="courier_id">
