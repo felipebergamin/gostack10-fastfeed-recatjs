@@ -1,15 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { GoSearch, GoItalic, GoTrashcan } from 'react-icons/go';
 import { BsThreeDots } from 'react-icons/bs';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import { toast } from 'react-toastify';
+import { debounce } from 'debounce';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
 
 function Problems() {
   const [problems, setProblems] = useState([]);
+  const [query, setQuery] = useState('');
+  const debounceRef = useRef();
+
+  useEffect(() => {
+    if (debounceRef.current) debounceRef.current.clear();
+
+    debounceRef.current = debounce(async () => {
+      const { data } = await api.get('delivery-problems/', {
+        params: {
+          q: query,
+        },
+      });
+      setProblems(data);
+    }, 400);
+
+    debounceRef.current();
+  }, [query]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -40,29 +58,27 @@ function Problems() {
       <div className="table-tools">
         <div className="input-container">
           <GoSearch className="input-icon" />
-          <input placeholder="Buscar por destinatários" />
+          <input
+            placeholder="Buscar por destinatários"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
         </div>
       </div>
 
       <table cellPadding="0" cellSpacing="0">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Endereço</th>
+            <th>Encomenda</th>
+            <th>Problema</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           {problems.map((problem) => (
             <tr key={String(problem.id)}>
-              <td>#{problem.id}</td>
-              <td>{problem.order.recipient.name}</td>
-              <td>
-                {problem.order.recipient.street},{' '}
-                {problem.order.recipient.number}, {problem.order.recipient.city}{' '}
-                - {problem.order.recipient.state}
-              </td>
+              <td>#{problem.order.id}</td>
+              <td>{problem.description}</td>
               <td>
                 <Dropdown
                   trigger={['click']}
