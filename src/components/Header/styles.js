@@ -28,6 +28,10 @@ export const Container = styled.div`
       text-transform: uppercase;
       color: #444;
     }
+
+    .active-link {
+      font-weight: bold;
+    }
   }
 
   .spacer {

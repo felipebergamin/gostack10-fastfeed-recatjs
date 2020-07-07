@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink as Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 import { Container } from './styles';
@@ -12,19 +12,19 @@ function Header() {
       <div className="separator" />
 
       <ul>
-        <Link to="/orders">
+        <Link to="/orders" activeClassName="active-link">
           <li>Encomendas</li>
         </Link>
 
-        <Link to="/couriers">
+        <Link to="/couriers" activeClassName="active-link">
           <li>Entregadores</li>
         </Link>
 
-        <Link to="/recipients">
+        <Link to="/recipients" activeClassName="active-link">
           <li>Destinatários</li>
         </Link>
 
-        <Link to="/delivery-problems">
+        <Link to="/delivery-problems" activeClassName="active-link">
           <li>Problemas</li>
         </Link>
       </ul>
