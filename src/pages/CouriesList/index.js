@@ -25,6 +25,8 @@ function CouriesList() {
 
   const handleDelete = async (id) => {
     if (!id) return;
+    if (!window.confirm('Tem certeza que deseja remover este entregador?'))
+      return;
 
     try {
       await api.delete(`couriers/${id}/`);
