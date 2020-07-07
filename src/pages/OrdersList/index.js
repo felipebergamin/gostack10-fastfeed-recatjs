@@ -7,7 +7,7 @@ import Menu, { Item as MenuItem } from 'rc-menu';
 import Modal from 'react-modal';
 
 import { Container } from '~/styles/TableContainer';
-import { ModalContent } from './styles';
+import { ModalContent, SignatureImage } from './styles';
 import api from '~/services/api';
 import StatusTag from './extras/StatusTag';
 
@@ -164,6 +164,8 @@ function OrdersList() {
               <hr />
 
               <strong>Assinatura do destinatário</strong>
+
+              <SignatureImage src={viewOrder.signature.url} alt="Assinatura" />
             </>
           )}
         </ModalContent>

@@ -40,3 +40,9 @@ export const ModalContent = styled.div`
     border-width: 1px;
   }
 `;
+
+export const SignatureImage = styled.img`
+  display: block;
+  margin-top: 20px;
+  max-height: 300px;
+`;
