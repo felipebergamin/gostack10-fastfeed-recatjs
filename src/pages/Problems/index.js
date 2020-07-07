@@ -5,13 +5,16 @@ import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import { toast } from 'react-toastify';
 import { debounce } from 'debounce';
+import Modal from 'react-modal';
 
 import { Container } from '~/styles/TableContainer';
 import api from '~/services/api';
+import { ModalContent } from '../OrdersList/styles';
 
 function Problems() {
   const [problems, setProblems] = useState([]);
   const [query, setQuery] = useState('');
+  const [viewProblem, setViewProblem] = useState();
   const debounceRef = useRef();
 
   useEffect(() => {
@@ -87,6 +90,7 @@ function Problems() {
                     <Menu style={{ width: 110 }} selectable={false}>
                       <MenuItem
                         key="1"
+                        onClick={() => setViewProblem(problem)}
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
@@ -123,6 +127,31 @@ function Problems() {
           ))}
         </tbody>
       </table>
+
+      <Modal
+        isOpen={!!viewProblem}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, .4)',
+          },
+        }}
+        onRequestClose={() => setViewProblem(null)}
+        contentLabel="Informações da Encomenda"
+        shouldCloseOnOverlayClick
+        shouldCloseOnEsc
+      >
+        <ModalContent>
+          <p>{viewProblem?.description ?? 'Nenhuma descrição'}</p>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 }
